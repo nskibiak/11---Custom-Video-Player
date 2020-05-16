@@ -1,17 +1,30 @@
-let playing = false;
+// let playing = false;
 
 function playVideo() {
-  if (playing) {
-    video.pause();
-    this.innerHTML = '►';
-    clearInterval(progressing);
-  } else {
+  if (video.paused) {
     video.play();
     this.innerHTML = '&#9616;&#9616;';
     progressing = setInterval(updateProgressDisplay, 250);
+} else {
+    video.pause();
+    this.innerHTML = '►';
+    clearInterval(progressing);
   }
-  playing = !playing;
+  // playing = !playing;
 }
+
+// function playVideo() {
+//   if (playing) {
+//     video.pause();
+//     this.innerHTML = '►';
+//     clearInterval(progressing);
+//   } else {
+//     video.play();
+//     this.innerHTML = '&#9616;&#9616;';
+//     progressing = setInterval(updateProgressDisplay, 250);
+//   }
+//   playing = !playing;
+// }
 
 function updateProgressDisplay() {
   let progress = (video.currentTime / video.duration) * 100;
@@ -29,27 +42,27 @@ function skipBackOrForth(e) {
   }
 }
 
-let isJumping = false; 
+let isJumping = false;
 
 function startJumpingToPoint(e) {
-    isJumping = true;
-    jumpingToPoint(e);
+  isJumping = true;
+  jumpingToPoint(e);
 }
 
 function jumpingToPoint(e) {
-    if (isJumping) {
-        lengthOfMovie = progressBar.getBoundingClientRect().width;
-        startOfMovie = progressBar.getBoundingClientRect().x;
-        jumpPoint = e.screenX;
-        percentOfMovie = ( (jumpPoint - startOfMovie) / lengthOfMovie) ;
-        video.currentTime = (video.duration * percentOfMovie);
-    }
-    updateProgressDisplay();
+  if (isJumping) {
+    lengthOfMovie = progressBar.getBoundingClientRect().width;
+    startOfMovie = progressBar.getBoundingClientRect().x;
+    jumpPoint = e.screenX;
+    percentOfMovie = (jumpPoint - startOfMovie) / lengthOfMovie;
+    video.currentTime = video.duration * percentOfMovie;
+  }
+  updateProgressDisplay();
 }
 
 function finishJumpingToPoint(e) {
-    isJumping = false;
-    console.log(isJumping);
+  isJumping = false;
+  console.log(isJumping);
 }
 
 const video = document.querySelector('video');
