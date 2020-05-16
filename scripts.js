@@ -1,7 +1,6 @@
 let playing = false;
 
 function playVideo() {
-    let progress;
     if (playing) {
         video.pause();
         this.innerHTML = "►";
