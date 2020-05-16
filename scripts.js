@@ -23,9 +23,16 @@ function adjustVolume() {
     console.log(video.volume);
 }
 
+function adjustSpeed() {
+    video.playbackRate = speedControl.value;
+    console.log(video.playbackRate);
+}
+
 const video = document.querySelector('video');
 const playButton = document.querySelector('.player__button');
 playButton.addEventListener('click', playVideo);
 const progressBar = document.querySelector('.progress__filled');
 const volumeControl = document.querySelector("div.player__controls input[name='volume']");
+const speedControl = document.querySelector("div.player__controls input[name='playbackRate']");
 volumeControl.addEventListener('change', adjustVolume);
+speedControl.addEventListener('change', adjustSpeed);
