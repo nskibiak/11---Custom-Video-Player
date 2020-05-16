@@ -31,9 +31,9 @@ function adjustSpeed() {
 }
 
 function skipAround(e) {
-    // console.log(video.currentTime);
-    // console.log(parseInt(e.target.dataset.skip));
-    video.currentTime += parseInt(e.target.dataset.skip);
+    if (e.target.dataset.skip) {
+        video.currentTime += parseInt(e.target.dataset.skip);
+    }
 }
 
 const video = document.querySelector('video');
