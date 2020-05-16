@@ -20,12 +20,20 @@ function updateProgressBar() {
 
 function adjustVolume() {
     video.volume = volumeControl.value;
-    console.log(video.volume);
 }
 
 function adjustSpeed() {
     video.playbackRate = speedControl.value;
-    console.log(video.playbackRate);
+}
+
+function adjustSpeed() {
+    video.playbackRate = speedControl.value;
+}
+
+function skipAround(e) {
+    // console.log(video.currentTime);
+    // console.log(parseInt(e.target.dataset.skip));
+    video.currentTime += parseInt(e.target.dataset.skip);
 }
 
 const video = document.querySelector('video');
@@ -33,7 +41,9 @@ const playButton = document.querySelector('.player__button');
 const progressBar = document.querySelector('.progress__filled');
 const volumeControl = document.querySelector("div.player__controls input[name='volume']");
 const speedControl = document.querySelector("div.player__controls input[name='playbackRate']");
+const skipButtons = document.querySelectorAll('.player__button');
 
 playButton.addEventListener('click', playVideo);
 volumeControl.addEventListener('input', adjustVolume);
 speedControl.addEventListener('input', adjustSpeed);
+skipButtons.forEach(button => addEventListener('click', skipAround));
