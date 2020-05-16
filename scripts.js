@@ -5,7 +5,7 @@ function playVideo() {
     video.play();
     this.innerHTML = '&#9616;&#9616;';
     progressing = setInterval(updateProgressDisplay, 250);
-} else {
+  } else {
     video.pause();
     this.innerHTML = '►';
     clearInterval(progressing);
@@ -65,21 +65,45 @@ function finishJumpingToPoint(e) {
   console.log(isJumping);
 }
 
+function toggleScreenSize() {
+  const cancelFullScreen =
+    document.exitFullscreen ||
+    document.mozCancelFullScreen ||
+    document.webkitExitFullscreen ||
+    document.msExitFullscreen;
+
+  let isInFullScreen =
+    document.fullscreenElement && document.fullscreenElement !== null;
+
+  if (!isInFullScreen) {
+    player.requestFullscreen();
+  } else {
+    cancelFullScreen.call(document);
+  }
+}
+
+// if (document.fullscreenElement) {
+//     document.exitFullscreen();
+// } else {
+//     document.documentElement.requestFullscreen();
+// }
+
 const video = document.querySelector('video');
 const playButton = document.querySelector('.player__button');
 const progressBar = document.querySelector('.progress');
 const progressDisplay = document.querySelector('.progress__filled');
 const skipButtons = document.querySelectorAll('.player__button');
 const sliders = document.querySelectorAll('.player__slider');
+const sizeControl = document.querySelector('#toggle_size');
+const player = document.querySelector('.player');
 
 progressBar.addEventListener('mousedown', startJumpingToPoint);
 progressBar.addEventListener('mousemove', jumpingToPoint);
 progressBar.addEventListener('mouseup', finishJumpingToPoint);
-
 playButton.addEventListener('click', playVideo);
 skipButtons.forEach((button) => addEventListener('click', skipBackOrForth));
 sliders.forEach((slider) => addEventListener('input', slideControls));
-
+sizeControl.addEventListener('click', toggleScreenSize);
 // const volumeControl = document.querySelector("div.player__controls input[name='volume']");
 // const speedControl = document.querySelector("div.player__controls input[name='playbackRate']");
 
