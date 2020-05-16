@@ -23,18 +23,33 @@ function slideControls(e) {
   console.log(video[e.target.name]);
 }
 
-function skipAround(e) {
+function skipBackOrForth(e) {
   if (e.target.dataset.skip) {
     video.currentTime += parseInt(e.target.dataset.skip);
   }
 }
 
-function jumpToPoint(e) {
-    lengthOfMovie = progressBar.getBoundingClientRect().width;
-    startOfMovie = progressBar.getBoundingClientRect().x;
-    jumpPoint = e.screenX;
-    percentOfMovie = ( (jumpPoint - startOfMovie) / lengthOfMovie) ;
-    video.currentTime = (video.duration * percentOfMovie);
+let isJumping = false; 
+
+function startJumpingToPoint(e) {
+    isJumping = true;
+    jumpingToPoint(e);
+}
+
+function jumpingToPoint(e) {
+    if (isJumping) {
+        lengthOfMovie = progressBar.getBoundingClientRect().width;
+        startOfMovie = progressBar.getBoundingClientRect().x;
+        jumpPoint = e.screenX;
+        percentOfMovie = ( (jumpPoint - startOfMovie) / lengthOfMovie) ;
+        video.currentTime = (video.duration * percentOfMovie);
+    }
+    updateProgressDisplay();
+}
+
+function finishJumpingToPoint(e) {
+    isJumping = false;
+    console.log(isJumping);
 }
 
 const video = document.querySelector('video');
@@ -44,9 +59,12 @@ const progressDisplay = document.querySelector('.progress__filled');
 const skipButtons = document.querySelectorAll('.player__button');
 const sliders = document.querySelectorAll('.player__slider');
 
-progressBar.addEventListener('mousedown', jumpToPoint);
+progressBar.addEventListener('mousedown', startJumpingToPoint);
+progressBar.addEventListener('mousemove', jumpingToPoint);
+progressBar.addEventListener('mouseup', finishJumpingToPoint);
+
 playButton.addEventListener('click', playVideo);
-skipButtons.forEach((button) => addEventListener('click', skipAround));
+skipButtons.forEach((button) => addEventListener('click', skipBackOrForth));
 sliders.forEach((slider) => addEventListener('input', slideControls));
 
 // const volumeControl = document.querySelector("div.player__controls input[name='volume']");
